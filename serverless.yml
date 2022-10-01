@@ -5,11 +5,38 @@ provider:
   name: aws
   runtime: nodejs12.x
   region: us-east-1
+  # Permissions
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        # Allow all (get, put, post)
+        - dynamodb:*
+      Resource:
+        # ARN (Unique identifier)
+        - arn:aws:dynamodb:us-east-1:235286397621:table/TodoTable
 
 functions:
-  hello:
-    handler: handler.lambdaFunction
+  addTodo:
+    handler: src/addTodo.handler
     events:
       - http:
-          path: /hello
+          path: /
           method: get
+
+resources:
+  Resources:
+    # Name of Resource
+    TodoTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        # Property Name and Table Name
+        TableName: TodoTable
+        BillingMode: PAY_PER_REQUEST
+        # Define Primary Key for each Record
+        # Tell our Table that an attribute will always be a Primary Key
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S # String
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH

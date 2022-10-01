@@ -1,0 +1,24 @@
+{
+  "name": "serverless-aws-lambda",
+  "version": "1.0.0",
+  "description": "Here I've created a simple Lambda function with help of Serverless framework, deployed to AWS",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/garbalau-github/serverless-aws-lambda.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/garbalau-github/serverless-aws-lambda/issues"
+  },
+  "homepage": "https://github.com/garbalau-github/serverless-aws-lambda#readme",
+  "dependencies": {
+    "aws-sdk": "^2.1227.0",
+    "uuid": "^9.0.0"
+  }
+}
