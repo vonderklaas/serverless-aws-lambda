@@ -1,14 +1,16 @@
 'use strict';
 
 const AWS = require('aws-sdk');
+const middy = require('@middy/core');
+const httpJsonBodyParser = require('@middy/http-json-body-parser');
 const { v4 } = require('uuid');
 
 const addTodo = async (event) => {
   // Get access to DynamoDB
   const dynamodb = new AWS.DynamoDB.DocumentClient();
 
-  // Get information from body (client)
-  const { todo } = JSON.parse(event.body);
+  // Get information from body (client) : We don't need to parse JSON here, we got a middleware for this
+  const { todo } = event.body;
   const createdAt = new Date().toISOString();
   const id = v4();
 
@@ -38,5 +40,6 @@ const addTodo = async (event) => {
 };
 
 module.exports = {
-  handler: addTodo,
+  // Adding middleware to exported handler
+  handler: middy(addTodo).use(httpJsonBodyParser()),
 };

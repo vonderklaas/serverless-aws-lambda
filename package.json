@@ -18,6 +18,8 @@
   },
   "homepage": "https://github.com/garbalau-github/serverless-aws-lambda#readme",
   "dependencies": {
+    "@middy/core": "^3.4.0",
+    "@middy/http-json-body-parser": "^3.4.0",
     "aws-sdk": "^2.1227.0",
     "uuid": "^9.0.0"
   }

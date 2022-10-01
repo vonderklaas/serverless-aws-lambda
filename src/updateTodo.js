@@ -1,13 +1,15 @@
 'use strict';
 
 const AWS = require('aws-sdk');
+const middy = require('@middy/core');
+const httpJsonBodyParser = require('@middy/http-json-body-parser');
 
 const updateTodo = async (event) => {
   // Get access to DynamoDB
   const dynamodb = new AWS.DynamoDB.DocumentClient();
 
   // Get 'completed' property from 'todo'
-  const { completed } = JSON.parse(event.body);
+  const { completed } = event.body;
   const { id } = event.pathParameters;
 
   // Save todo
@@ -34,5 +36,5 @@ const updateTodo = async (event) => {
 };
 
 module.exports = {
-  handler: updateTodo,
+  handler: middy(updateTodo).use(httpJsonBodyParser()),
 };
