@@ -5,11 +5,11 @@ const { v4 } = require('uuid');
 
 const addTodo = async (event) => {
   // Get access to DynamoDB
-  const dynamodb = AWS.DynamoDB.DocumentClient;
+  const dynamodb = new AWS.DynamoDB.DocumentClient();
 
   // Get information from body (client)
   const { todo } = JSON.parse(event.body);
-  const createdAt = new Date();
+  const createdAt = new Date().toISOString();
   const id = v4();
 
   // Debugging
@@ -24,13 +24,15 @@ const addTodo = async (event) => {
   };
 
   // Save todo
-  await dynamodb.put({
-    TableName: 'TodoTable',
-    Item: newTodo,
-  });
+  await dynamodb
+    .put({
+      TableName: 'TodoTable',
+      Item: newTodo,
+    })
+    .promise();
 
   return {
-    statusCode: 200,
+    statusCode: 201,
     body: JSON.stringify(newTodo),
   };
 };

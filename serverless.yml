@@ -6,14 +6,16 @@ provider:
   runtime: nodejs12.x
   region: us-east-1
   # Permissions
-  iamRoleStatements:
-    - Effect: Allow
-      Action:
-        # Allow all (get, put, post)
-        - dynamodb:*
-      Resource:
-        # ARN (Unique identifier)
-        - arn:aws:dynamodb:us-east-1:235286397621:table/TodoTable
+  iam:
+    role:
+      statements:
+        - Effect: Allow
+          Action:
+            # Allow all (get, put, post)
+            - dynamodb:*
+          Resource:
+            # ARN (Unique identifier)
+            - arn:aws:dynamodb:us-east-1:235286397621:table/TodoTable
 
 functions:
   addTodo:
@@ -21,6 +23,12 @@ functions:
     events:
       - http:
           path: /
+          method: post
+  fetchTodos:
+    handler: src/fetchTodos.handler
+    events:
+      - http:
+          path: /todos
           method: get
 
 resources:
